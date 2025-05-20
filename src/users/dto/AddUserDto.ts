@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsInt } from "class-validator";
+import { IsString, IsNotEmpty, IsInt, IsOptional } from "class-validator";
 import { Transform } from "class-transformer";
 
 export enum ActiveType {
@@ -23,6 +23,7 @@ export class AddUserDto {
   @IsNotEmpty()
   type: string;
 
+  @IsOptional()
   @IsNotEmpty()
   @Transform(({ value }) => Number(value))
   @IsInt()
