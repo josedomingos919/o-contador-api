@@ -1,7 +1,11 @@
 import { JwtService } from "@nestjs/jwt";
 import { LoginDto } from "./dto/login.dto";
 import { UsersService } from "../users/users.service";
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from "@nestjs/common";
 
 import * as bcrypt from "bcrypt";
 
@@ -13,6 +17,10 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, password: string) {
+    if (!username || !password) {
+      throw new ForbiddenException("Dados incorrectos...");
+    }
+
     const user = await this.usersService.findByUsername(username);
 
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -24,7 +32,10 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto): Promise<{ access_token: string }> {
-    const user = await this.validateUser(loginDto.username, loginDto.password);
+    const user = await this.validateUser(
+      loginDto?.username,
+      loginDto?.password
+    );
 
     if (!user) {
       throw new UnauthorizedException("Credenciais inválidas");

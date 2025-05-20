@@ -6,6 +6,7 @@ import {
   Body,
   UnauthorizedException,
   UseGuards,
+  Get,
 } from "@nestjs/common";
 import { AuthGuard } from "./auth.guard";
 
@@ -19,7 +20,7 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
-  @Post("profile")
+  @Get("profile")
   async profile() {
     return ["rest", "hello"];
   }
