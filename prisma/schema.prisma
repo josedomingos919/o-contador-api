@@ -39,3 +39,18 @@ model SiteInfo {
 
   @@map("site_info")
 }
+
+model FAQs {
+  id Int @id @default(autoincrement())
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  order Int? @default(10)
+
+  question String?
+
+  answer String?
+
+  @@map("faq")
+}
